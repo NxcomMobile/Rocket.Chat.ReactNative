@@ -1,24 +1,39 @@
-import React, { useContext, memo, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, {
+	memo,
+	useContext,
+	useEffect
+} from 'react';
+
 import { connect } from 'react-redux';
 
-import { SetUsernameStackParamList, StackParamList } from './definitions/navigationTypes';
-import Navigation from './lib/navigation/appNavigation';
-import { defaultHeader, getActiveRouteName, navigationTheme } from './lib/methods/helpers/navigation';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import { RootEnum } from './definitions';
-// Stacks
-import AuthLoadingView from './views/AuthLoadingView';
-// SetUsername Stack
-import SetUsernameView from './views/SetUsernameView';
-import OutsideStack from './stacks/OutsideStack';
-import InsideStack from './stacks/InsideStack';
-import MasterDetailStack from './stacks/MasterDetailStack';
-import ShareExtensionStack from './stacks/ShareExtensionStack';
-import { ThemeContext } from './theme';
-import { setCurrentScreen } from './lib/methods/helpers/log';
+import {
+	SetUsernameStackParamList,
+	StackParamList
+} from './definitions/navigationTypes';
 import { themes } from './lib/constants';
 import { emitter } from './lib/methods/helpers';
+import { setCurrentScreen } from './lib/methods/helpers/log';
+import {
+	defaultHeader,
+	getActiveRouteName,
+	navigationTheme
+} from './lib/methods/helpers/navigation';
+import Navigation from './lib/navigation/appNavigation';
+import InsideStack from './stacks/InsideStack';
+import MasterDetailStack from './stacks/MasterDetailStack';
+import OutsideStack from './stacks/OutsideStack';
+import ShareExtensionStack from './stacks/ShareExtensionStack';
+import { ThemeContext } from './theme';
+// Stacks
+import AuthLoadingView from './views/AuthLoadingView';
+import GlobalFAB from './views/NxcomView/GlobalFAB';
+import NxcomStackNavigator from './views/NxcomView/NxcomStack';
+// SetUsername Stack
+import SetUsernameView from './views/SetUsernameView';
 
 const createStackNavigator = createNativeStackNavigator;
 
@@ -41,7 +56,7 @@ const App = memo(({ root, isMasterDetail }: { root: string; isMasterDetail: bool
 			Navigation.routeNameRef.current = currentRouteName;
 			setCurrentScreen(currentRouteName);
 		}
-	}, [root]);
+	}, [ root ]);
 
 	if (!root) {
 		return null;
@@ -64,7 +79,7 @@ const App = memo(({ root, isMasterDetail }: { root: string; isMasterDetail: bool
 				}
 				Navigation.routeNameRef.current = currentRouteName;
 			}}>
-			<Stack.Navigator screenOptions={{ headerShown: false, animation: 'none', navigationBarColor: themes[theme].surfaceLight }}>
+			<Stack.Navigator screenOptions={{ headerShown: false, animation: 'none', navigationBarColor: themes[ theme ].surfaceLight }}>
 				{root === RootEnum.ROOT_LOADING || root === RootEnum.ROOT_LOADING_SHARE_EXTENSION ? (
 					<Stack.Screen name='AuthLoading' component={AuthLoadingView} />
 				) : null}
@@ -77,7 +92,12 @@ const App = memo(({ root, isMasterDetail }: { root: string; isMasterDetail: bool
 				{root === RootEnum.ROOT_SHARE_EXTENSION ? (
 					<Stack.Screen name='ShareExtensionStack' component={ShareExtensionStack} />
 				) : null}
+				{root === RootEnum.ROOT_NX ? (
+					<Stack.Screen name='NxcomStack' component={NxcomStackNavigator} />
+				) : null}
+
 			</Stack.Navigator>
+			<GlobalFAB />
 		</NavigationContainer>
 	);
 });

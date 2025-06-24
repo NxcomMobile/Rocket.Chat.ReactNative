@@ -1,8 +1,11 @@
 import { NetInfoStateType } from '@react-native-community/netinfo';
 
+import {
+	APP,
+	APP_STATE
+} from '../actions/actionsTypes';
 import { TActionApp } from '../actions/app';
 import { RootEnum } from '../definitions';
-import { APP, APP_STATE } from '../actions/actionsTypes';
 
 export interface IApp {
 	root?: RootEnum;
@@ -41,6 +44,10 @@ export default function app(state = initialState, action: TActionApp): IApp {
 				background: true
 			};
 		case APP.START:
+			// Nếu root hiện tại là ROOT_NX và không force update thì giữ nguyên root
+			if (state.root === RootEnum.ROOT_NX && !action.forceUpdate) {
+				return state;
+			}
 			return {
 				...state,
 				root: action.root,

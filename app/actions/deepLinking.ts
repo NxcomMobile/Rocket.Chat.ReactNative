@@ -22,6 +22,18 @@ export function deepLinkingOpen(params: Partial<IParams>): IDeepLinkingOpen {
 		params
 	};
 }
+export function deepLinkingOpenNxWebview(params: Partial<{
+	site_url: string,
+	redirect_url: string,
+	title?: string,
+	role?: string
+
+}>) {
+	return {
+		type: DEEP_LINKING.OPEN_NX_WEBVIEW,
+		params
+	};
+}
 
 export function deepLinkingClickCallPush(params: any): IDeepLinkingOpen {
 	return {

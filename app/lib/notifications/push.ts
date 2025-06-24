@@ -1,21 +1,26 @@
 import {
-	Notifications,
-	Registered,
-	RegistrationError,
-	NotificationCompletion,
+	PermissionsAndroid,
+	Platform
+} from 'react-native';
+import {
 	Notification,
 	NotificationAction,
-	NotificationCategory
+	NotificationCategory,
+	NotificationCompletion,
+	Notifications,
+	Registered,
+	RegistrationError
 } from 'react-native-notifications';
-import { PermissionsAndroid, Platform } from 'react-native';
+
+import messaging from '@react-native-firebase/messaging'; // <--- THÊM IMPORT NÀY
 
 import { INotification } from '../../definitions';
+import I18n from '../../i18n';
 import { isIOS } from '../methods/helpers';
 import { store as reduxStore } from '../store/auxStore';
-import I18n from '../../i18n';
 
 export let deviceToken = '';
-
+export let fcmToken = '';
 export const setNotificationsBadgeCount = (count = 0): void => {
 	if (isIOS) {
 		Notifications.ios.setBadgeCount(count);
@@ -46,10 +51,10 @@ export const pushNotificationConfigure = (onNotification: (notification: INotifi
 		const acceptAction = new NotificationAction('ACCEPT_ACTION', 'foreground', I18n.t('accept'), true);
 		const rejectAction = new NotificationAction('DECLINE_ACTION', 'foreground', I18n.t('decline'), true);
 
-		const notificationCategory = new NotificationCategory('MESSAGE', [notificationAction]);
-		const videoConfCategory = new NotificationCategory('VIDEOCONF', [acceptAction, rejectAction]);
+		const notificationCategory = new NotificationCategory('MESSAGE', [ notificationAction ]);
+		const videoConfCategory = new NotificationCategory('VIDEOCONF', [ acceptAction, rejectAction ]);
 
-		Notifications.setCategories([videoConfCategory, notificationCategory]);
+		Notifications.setCategories([ videoConfCategory, notificationCategory ]);
 	} else if (Platform.OS === 'android' && Platform.constants.Version >= 33) {
 		// @ts-ignore
 		PermissionsAndroid.request('android.permission.POST_NOTIFICATIONS').then(permissionStatus => {
@@ -63,8 +68,29 @@ export const pushNotificationConfigure = (onNotification: (notification: INotifi
 		Notifications.registerRemoteNotifications();
 	}
 
-	Notifications.events().registerRemoteNotificationsRegistered((event: Registered) => {
+	Notifications.events().registerRemoteNotificationsRegistered(async (event: Registered) => {
 		deviceToken = event.deviceToken;
+		console.log('[Push Notification]  Device token registered:', deviceToken);
+
+		if (deviceToken && isIOS) {
+			try {
+				// Bước 1: Đưa APNs token cho Firebase
+				await messaging().setAPNSToken(deviceToken);
+
+				// Bước 2: Sau khi set thành công, gọi getToken() để lấy FCM token
+				const token = await messaging().getToken();
+				console.log('[Push Notification] Successfully bridged to FCM token:', token);
+
+				// Bước 3: Lưu FCM token vào biến toàn cục của bạn
+				fcmToken = token;
+
+				// Tại đây, bạn có thể gọi hàm để gửi fcmToken lên server của mình
+				// ví dụ: sendTokenToServer(fcmToken);
+
+			} catch (error) {
+				console.error('[Push Notification] Error bridging APNs to FCM token:', error);
+			}
+		}
 	});
 
 	Notifications.events().registerRemoteNotificationsRegistrationFailed((event: RegistrationError) => {

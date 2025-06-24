@@ -1,11 +1,14 @@
 import { NavigatorScreenParams } from '@react-navigation/core';
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 
-import { TSubscriptionModel } from './ISubscription';
-import { TServerModel } from './IServer';
-import { IAttachment } from './IAttachment';
 import { MasterDetailInsideStackParamList } from '../stacks/MasterDetailStack/types';
-import { OutsideParamList, InsideStackParamList } from '../stacks/types';
+import {
+	InsideStackParamList,
+	OutsideParamList
+} from '../stacks/types';
+import { IAttachment } from './IAttachment';
+import { TServerModel } from './IServer';
+import { TSubscriptionModel } from './ISubscription';
 
 interface INavigationProps {
 	route?: any;
@@ -30,6 +33,8 @@ export type StackParamList = {
 	MasterDetailStack: NavigatorScreenParams<MasterDetailInsideStackParamList>;
 	SetUsernameStack: NavigatorScreenParams<SetUsernameStackParamList>;
 	ShareExtensionStack: NavigatorScreenParams<ShareInsideStackParamList>;
+	NxcomStack: NavigatorScreenParams<NxParamList>;
+
 };
 
 export type ShareInsideStackParamList = {
@@ -44,4 +49,8 @@ export type ShareInsideStackParamList = {
 		thread?: any; // TODO: Change
 	};
 	SelectServerView: undefined;
+};
+
+export type NxParamList = {
+	NxcomStackNavigator: undefined;
 };

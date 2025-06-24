@@ -1,4 +1,5 @@
 import { Action } from 'redux';
+
 import { NetInfoStateType } from '@react-native-community/netinfo';
 
 import { RootEnum } from '../definitions';
@@ -7,6 +8,7 @@ import { APP } from './actionsTypes';
 interface IAppStart extends Action {
 	root: RootEnum;
 	text?: string;
+	forceUpdate?: boolean;
 }
 
 interface ISetMasterDetail extends Action {
@@ -25,13 +27,15 @@ export type TActionApp = IAppStart & ISetMasterDetail & ISetNotificationPresence
 
 interface Params {
 	root: RootEnum;
-	[key: string]: any;
+	forceUpdate?: boolean;
+	[ key: string ]: any;
 }
 
-export function appStart({ root, ...args }: Params): IAppStart {
+export function appStart({ root, forceUpdate = false, ...args }: Params): IAppStart {
 	return {
 		type: APP.START,
 		root,
+		forceUpdate,
 		...args
 	};
 }

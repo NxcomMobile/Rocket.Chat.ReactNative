@@ -1,4 +1,63 @@
 {
 	"name": "RocketChatRN",
-	"server": "https://open.rocket.chat"
-}
+	"server": "http://192.168.10.49:3000",
+	"scheme": "nxforum",
+	"expo": {
+	  "name": "NxForum",
+	  "slug": "nxforum",
+	  "version": "1.0.0",
+	  "orientation": "portrait",
+	  "scheme": "nxforum",
+	  "userInterfaceStyle": "automatic",
+	  "newArchEnabled": true,
+	  "ios": {
+		"supportsTablet": true,
+		"bundleIdentifier": "org.nxcom.nxforum"
+	  },
+	  "android": {
+		"package": "org.nxcom.nxforum",
+		"intentFilters": [
+		  {
+			"action": "VIEW",
+			"data": [
+			  {
+				"scheme": "nxforum",
+				"host": "oauthredirect"
+			  }
+			],
+			"category": [
+			  "BROWSABLE",
+			  "DEFAULT"
+			]
+		  }
+		]
+	  },
+	  "runtimeVersion": "1.0.0",
+	  "updates": {
+		"url": "https://u.expo.dev/f41b92dc-7462-4938-9640-96a9b22348e4",
+		"expo-channel-name": "production",
+		"fallbackToCacheTimeout": 30000,
+		"requestHeaders": {
+		  "expo-channel-name": "production"
+		},
+		"checkAutomatically": "ON_ERROR_RECOVERY"
+	  },
+	  "plugins": [
+		"expo-font",
+		"expo-secure-store"
+	  ],
+	  "experiments": {
+		"typedRoutes": true
+	  },
+	  "extra": {
+		"router": {
+		  "origin": false
+		},
+		"eas": {
+		  "projectId": "f41b92dc-7462-4938-9640-96a9b22348e4"
+		}
+	  },
+	  "owner": "nxcom"
+	}
+  }
+  

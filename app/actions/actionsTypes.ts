@@ -1,17 +1,17 @@
 const REQUEST = 'REQUEST';
 const SUCCESS = 'SUCCESS';
 const FAILURE = 'FAILURE';
-const defaultTypes = [REQUEST, SUCCESS, FAILURE];
+const defaultTypes = [ REQUEST, SUCCESS, FAILURE ];
 function createRequestTypes(base = {}, types = defaultTypes): Record<string, string> {
 	const res: Record<string, string> = {};
-	types.forEach(type => (res[type] = `${base}_${type}`));
+	types.forEach(type => (res[ type ] = `${base}_${type}`));
 	return res;
 }
 
 // Login events
-export const LOGIN = createRequestTypes('LOGIN', [...defaultTypes, 'SET_SERVICES', 'SET_PREFERENCE', 'SET_LOCAL_AUTHENTICATED']);
-export const SHARE = createRequestTypes('SHARE', ['SET_PARAMS']);
-export const USER = createRequestTypes('USER', ['SET', 'CLEAR']);
+export const LOGIN = createRequestTypes('LOGIN', [ ...defaultTypes, 'SET_SERVICES', 'SET_PREFERENCE', 'SET_LOCAL_AUTHENTICATED' ]);
+export const SHARE = createRequestTypes('SHARE', [ 'SET_PARAMS' ]);
+export const USER = createRequestTypes('USER', [ 'SET', 'CLEAR' ]);
 export const ROOMS = createRequestTypes('ROOMS', [
 	...defaultTypes,
 	'REFRESH',
@@ -47,10 +47,10 @@ export const APP = createRequestTypes('APP', [
 	'SET_NOTIFICATION_PRESENCE_CAP',
 	'SET_NET_INFO_STATE'
 ]);
-export const MESSAGES = createRequestTypes('MESSAGES', ['REPLY_BROADCAST']);
-export const CREATE_CHANNEL = createRequestTypes('CREATE_CHANNEL', [...defaultTypes]);
-export const CREATE_DISCUSSION = createRequestTypes('CREATE_DISCUSSION', [...defaultTypes]);
-export const SELECTED_USERS = createRequestTypes('SELECTED_USERS', ['ADD_USER', 'REMOVE_USER', 'RESET', 'SET_LOADING']);
+export const MESSAGES = createRequestTypes('MESSAGES', [ 'REPLY_BROADCAST' ]);
+export const CREATE_CHANNEL = createRequestTypes('CREATE_CHANNEL', [ ...defaultTypes ]);
+export const CREATE_DISCUSSION = createRequestTypes('CREATE_DISCUSSION', [ ...defaultTypes ]);
+export const SELECTED_USERS = createRequestTypes('SELECTED_USERS', [ 'ADD_USER', 'REMOVE_USER', 'RESET', 'SET_LOADING' ]);
 export const SERVER = createRequestTypes('SERVER', [
 	...defaultTypes,
 	'CLEAR',
@@ -61,15 +61,15 @@ export const SERVER = createRequestTypes('SERVER', [
 	'INIT_ADD',
 	'FINISH_ADD'
 ]);
-export const METEOR = createRequestTypes('METEOR_CONNECT', [...defaultTypes, 'DISCONNECT']);
+export const METEOR = createRequestTypes('METEOR_CONNECT', [ ...defaultTypes, 'DISCONNECT' ]);
 export const LOGOUT = 'LOGOUT'; // logout is always success
 export const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
-export const SNIPPETED_MESSAGES = createRequestTypes('SNIPPETED_MESSAGES', ['OPEN', 'READY', 'CLOSE', 'MESSAGES_RECEIVED']);
-export const DEEP_LINKING = createRequestTypes('DEEP_LINKING', ['OPEN', 'OPEN_VIDEO_CONF']);
-export const SORT_PREFERENCES = createRequestTypes('SORT_PREFERENCES', ['SET_ALL', 'SET']);
+export const SNIPPETED_MESSAGES = createRequestTypes('SNIPPETED_MESSAGES', [ 'OPEN', 'READY', 'CLOSE', 'MESSAGES_RECEIVED' ]);
+export const DEEP_LINKING = createRequestTypes('DEEP_LINKING', [ 'OPEN', 'OPEN_VIDEO_CONF', 'OPEN_NX_WEBVIEW' ]);
+export const SORT_PREFERENCES = createRequestTypes('SORT_PREFERENCES', [ 'SET_ALL', 'SET' ]);
 export const SET_CUSTOM_EMOJIS = 'SET_CUSTOM_EMOJIS';
-export const ACTIVE_USERS = createRequestTypes('ACTIVE_USERS', ['SET', 'CLEAR']);
-export const USERS_TYPING = createRequestTypes('USERS_TYPING', ['ADD', 'REMOVE', 'CLEAR']);
+export const ACTIVE_USERS = createRequestTypes('ACTIVE_USERS', [ 'SET', 'CLEAR' ]);
+export const USERS_TYPING = createRequestTypes('USERS_TYPING', [ 'ADD', 'REMOVE', 'CLEAR' ]);
 export const INVITE_LINKS = createRequestTypes('INVITE_LINKS', [
 	'SET_TOKEN',
 	'SET_PARAMS',
@@ -78,9 +78,9 @@ export const INVITE_LINKS = createRequestTypes('INVITE_LINKS', [
 	'CLEAR',
 	...defaultTypes
 ]);
-export const SETTINGS = createRequestTypes('SETTINGS', ['CLEAR', 'ADD', 'UPDATE']);
-export const APP_STATE = createRequestTypes('APP_STATE', ['FOREGROUND', 'BACKGROUND']);
-export const ENTERPRISE_MODULES = createRequestTypes('ENTERPRISE_MODULES', ['CLEAR', 'SET']);
+export const SETTINGS = createRequestTypes('SETTINGS', [ 'CLEAR', 'ADD', 'UPDATE' ]);
+export const APP_STATE = createRequestTypes('APP_STATE', [ 'FOREGROUND', 'BACKGROUND' ]);
+export const ENTERPRISE_MODULES = createRequestTypes('ENTERPRISE_MODULES', [ 'CLEAR', 'SET' ]);
 export const ENCRYPTION = createRequestTypes('ENCRYPTION', [
 	'INIT',
 	'STOP',
@@ -90,9 +90,9 @@ export const ENCRYPTION = createRequestTypes('ENCRYPTION', [
 	'SET_BANNER'
 ]);
 
-export const PERMISSIONS = createRequestTypes('PERMISSIONS', ['SET', 'UPDATE']);
-export const ROLES = createRequestTypes('ROLES', ['SET', 'UPDATE', 'REMOVE']);
-export const USERS_ROLES = createRequestTypes('USERS_ROLES', ['SET']);
+export const PERMISSIONS = createRequestTypes('PERMISSIONS', [ 'SET', 'UPDATE' ]);
+export const ROLES = createRequestTypes('ROLES', [ 'SET', 'UPDATE', 'REMOVE' ]);
+export const USERS_ROLES = createRequestTypes('USERS_ROLES', [ 'SET' ]);
 export const VIDEO_CONF = createRequestTypes('VIDEO_CONF', [
 	'HANDLE_INCOMING_WEBSOCKET_MESSAGES',
 	'SET',
@@ -103,6 +103,6 @@ export const VIDEO_CONF = createRequestTypes('VIDEO_CONF', [
 	'ACCEPT_CALL',
 	'SET_CALLING'
 ]);
-export const TROUBLESHOOTING_NOTIFICATION = createRequestTypes('TROUBLESHOOTING_NOTIFICATION', ['INIT', 'SET']);
-export const SUPPORTED_VERSIONS = createRequestTypes('SUPPORTED_VERSIONS', ['SET']);
-export const IN_APP_FEEDBACK = createRequestTypes('IN_APP_FEEDBACK', ['SET', 'REMOVE', 'CLEAR']);
+export const TROUBLESHOOTING_NOTIFICATION = createRequestTypes('TROUBLESHOOTING_NOTIFICATION', [ 'INIT', 'SET' ]);
+export const SUPPORTED_VERSIONS = createRequestTypes('SUPPORTED_VERSIONS', [ 'SET' ]);
+export const IN_APP_FEEDBACK = createRequestTypes('IN_APP_FEEDBACK', [ 'SET', 'REMOVE', 'CLEAR' ]);

@@ -1,31 +1,33 @@
 import { combineReducers } from 'redux';
 
 import inquiry from '../ee/omnichannel/reducers/inquiry';
-import settings from './settings';
-import login from './login';
-import meteor from './connect';
-import room from './room';
-import rooms from './rooms';
-import server from './server';
-import selectedUsers from './selectedUsers';
-import createChannel from './createChannel';
-import app from './app';
-import sortPreferences from './sortPreferences';
-import share from './share';
-import customEmojis from './customEmojis';
+import nxforumAuth from '../views/NxcomView/stores/Auth/reducer';
+import forums from '../views/NxcomView/stores/Forums/reducers';
 import activeUsers from './activeUsers';
-import usersTyping from './usersTyping';
-import inviteLinks from './inviteLinks';
+import app from './app';
+import meteor from './connect';
+import createChannel from './createChannel';
 import createDiscussion from './createDiscussion';
-import enterpriseModules from './enterpriseModules';
+import customEmojis from './customEmojis';
 import encryption from './encryption';
+import enterpriseModules from './enterpriseModules';
+import inAppFeedback from './inAppFeedback';
+import inviteLinks from './inviteLinks';
+import login from './login';
 import permissions from './permissions';
 import roles from './roles';
-import videoConf from './videoConf';
-import usersRoles from './usersRoles';
-import troubleshootingNotification from './troubleshootingNotification';
+import room from './room';
+import rooms from './rooms';
+import selectedUsers from './selectedUsers';
+import server from './server';
+import settings from './settings';
+import share from './share';
+import sortPreferences from './sortPreferences';
 import supportedVersions from './supportedVersions';
-import inAppFeedback from './inAppFeedback';
+import troubleshootingNotification from './troubleshootingNotification';
+import usersRoles from './usersRoles';
+import usersTyping from './usersTyping';
+import videoConf from './videoConf';
 
 export default combineReducers({
 	settings,
@@ -53,5 +55,7 @@ export default combineReducers({
 	usersRoles,
 	troubleshootingNotification,
 	supportedVersions,
-	inAppFeedback
+	inAppFeedback,
+	forums,
+	nxforumAuth
 });

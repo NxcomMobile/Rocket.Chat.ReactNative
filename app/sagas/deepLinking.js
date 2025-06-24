@@ -1,26 +1,55 @@
-import { all, call, delay, put, select, take, takeLatest } from 'redux-saga/effects';
+import {
+	all,
+	call,
+	delay,
+	put,
+	select,
+	take,
+	takeLatest
+} from 'redux-saga/effects';
 
-import { shareSetParams } from '../actions/share';
 import * as types from '../actions/actionsTypes';
-import { appInit, appStart } from '../actions/app';
-import { inviteLinksRequest, inviteLinksSetToken } from '../actions/inviteLinks';
+import {
+	appInit,
+	appStart
+} from '../actions/app';
+import {
+	inviteLinksRequest,
+	inviteLinksSetToken
+} from '../actions/inviteLinks';
 import { loginRequest } from '../actions/login';
-import { selectServerRequest, serverInitAdd } from '../actions/server';
+import {
+	selectServerRequest,
+	serverInitAdd
+} from '../actions/server';
+import { shareSetParams } from '../actions/share';
 import { RootEnum } from '../definitions';
-import { CURRENT_SERVER, TOKEN_KEY } from '../lib/constants';
+import {
+	CURRENT_SERVER,
+	TOKEN_KEY
+} from '../lib/constants';
 import database from '../lib/database';
 import { getServerById } from '../lib/database/services/Server';
-import { canOpenRoom, getServerInfo } from '../lib/methods';
-import { emitter, getUidDirectMessage } from '../lib/methods/helpers';
+import {
+	canOpenRoom,
+	getServerInfo
+} from '../lib/methods';
+import {
+	emitter,
+	getUidDirectMessage
+} from '../lib/methods/helpers';
 import EventEmitter from '../lib/methods/helpers/events';
-import { goRoom, navigateToRoom } from '../lib/methods/helpers/goRoom';
+import {
+	goRoom,
+	navigateToRoom
+} from '../lib/methods/helpers/goRoom';
 import { localAuthenticate } from '../lib/methods/helpers/localAuthentication';
 import log from '../lib/methods/helpers/log';
 import UserPreferences from '../lib/methods/userPreferences';
 import { videoConfJoin } from '../lib/methods/videoConf';
+import Navigation from '../lib/navigation/appNavigation';
 import { Services } from '../lib/services';
 import sdk from '../lib/services/sdk';
-import Navigation from '../lib/navigation/appNavigation';
 
 const roomTypes = {
 	channel: 'c',
@@ -61,14 +90,14 @@ const navigate = function* navigate({ params }) {
 		let jumpToThreadId;
 		if (params.path) {
 			// Following this pattern: {channelType}/{channelName}/thread/{threadId}
-			[type, name, , jumpToThreadId] = params.path.split('/');
+			[ type, name, , jumpToThreadId ] = params.path.split('/');
 		}
 		if (type !== 'invite' || params.rid) {
 			const room = yield canOpenRoom(params);
 			if (room) {
 				const item = {
 					name,
-					t: roomTypes[type],
+					t: roomTypes[ type ],
 					roomUserId: getUidDirectMessage(room),
 					...room
 				};
@@ -159,7 +188,7 @@ const handleOpen = function* handleOpen({ params }) {
 		host = host.slice(0, host.length - 1);
 	}
 
-	const [server, user] = yield all([
+	const [ server, user ] = yield all([
 		UserPreferences.getString(CURRENT_SERVER),
 		UserPreferences.getString(`${TOKEN_KEY}-${host}`)
 	]);
@@ -248,7 +277,7 @@ const handleClickCallPush = function* handleClickCallPush({ params }) {
 		host = host.slice(0, host.length - 1);
 	}
 
-	const [server, user] = yield all([
+	const [ server, user ] = yield all([
 		UserPreferences.getString(CURRENT_SERVER),
 		UserPreferences.getString(`${TOKEN_KEY}-${host}`)
 	]);
@@ -291,8 +320,87 @@ const handleClickCallPush = function* handleClickCallPush({ params }) {
 	}
 };
 
+const waitForNavigationNxforum = () => {
+	// log('[waitForNavigation] Called.');
+
+	// Kiểm tra xem navigation đã sẵn sàng hoàn toàn chưa bằng phương thức chuẩn của React Navigation.
+	// Đây là cách kiểm tra đáng tin cậy nhất nếu Navigation.navigationRef là một NavigationContainerRef.
+	if (Navigation.navigationRef.current?.isReady()) {
+		// log('[waitForNavigationNxforum] Navigation ref.isReady() is true. Resolving immediately.');
+		return Promise.resolve();
+	}
+
+	// log('[waitForNavigationNxforum] Navigation not fully ready yet (or ref not set). Setting up promise and listener for "navigationReady" event.');
+	return new Promise(resolve => {
+		const listener = () => {
+			// log('[waitForNavigationNxforum] "navigationReady" event received via emitter. Resolving.');
+			emitter.off('navigationReady', listener); // Quan trọng: dọn dẹp listener
+			resolve();
+		};
+
+		// Đăng ký lắng nghe sự kiện tùy chỉnh
+		emitter.on('navigationReady', listener);
+		// log('[waitForNavigationNxforum] Subscribed to "navigationReady" event.');
+
+		// Kiểm tra lại sau khi đăng ký để xử lý race condition:
+		// Điều gì sẽ xảy ra nếu onReady được kích hoạt (và do đó isReady() trở thành true)
+		// *giữa* lần kiểm tra ban đầu ở trên và việc gọi emitter.on()?
+		if (Navigation.navigationRef.current?.isReady()) {
+			// log('[waitForNavigationNxforum] Navigation ref.isReady() is true (checked AFTER subscribing). Resolving and cleaning up listener.');
+			emitter.off('navigationReady', listener); // Dọn dẹp listener vì không còn cần thiết nữa
+			resolve();
+		} else {
+			// log('[waitForNavigationNxforum] Still waiting for "navigationReady" event via emitter.');
+		}
+
+		// DEVELOPMENT ONLY: Optional timeout for debugging hangs in waitForNavigation
+		// setTimeout(() => {
+		// 	if (!Navigation.navigationRef.current?.isReady()) {
+		// 		log('[waitForNavigation] DEV TIMEOUT: Still waiting for "navigationReady" after 15s. The "navigationReady" event might not have been emitted, or isReady() is not becoming true.');
+		// 	}
+		// }, 15000);
+	});
+};
+
+const handleOpenNxWebViewViaSaga = function* handleOpenNxWebViewViaSaga({ params }) {
+	// Saga này chỉ chịu trách nhiệm điều hướng.
+	// Nó kỳ vọng `params` chứa `site_url` và `redirect_url` (nếu cần từ action).
+	const { site_url, redirect_url } = params;
+	// log(`handleOpenNxWebViewViaSaga: site_url: ${site_url}, redirect_url: ${redirect_url}`);
+
+	// Kiểm tra xem các tham số cần thiết cho NxWebViewScreen có tồn tại không
+	if (!site_url) { // Bạn có thể cần kiểm tra cả post_url nếu nó bắt buộc
+		// log(new Error('handleOpenNxWebViewViaSaga: Thiếu tham số `site_url` cần thiết để điều hướng đến NxWebView.'));
+		// Không làm gì thêm nếu thiếu params, vì saga này giờ rất đơn giản.
+		// Hoặc bạn có thể gọi fallbackNavigation() nếu muốn.
+		return;
+	}
+	// Đảm bảo ứng dụng ở trạng thái ROOT_INSIDE để NavigationContainer được render
+	// Cần làm điều này TRƯỚC khi chờ navigation.
+	// log('[handleOpenNxWebViewViaSaga] Setting app root to ROOT_INSIDE to ensure NavigationContainer is rendered.');
+	yield put(appInit());
+	// yield put(appStart({ root: RootEnum.ROOT_INSIDE }));
+	// Đợi cho navigation sẵn sàng
+	// log('[handleOpenNxWebViewViaSaga] About to call waitForNavigation.');
+	yield call(waitForNavigationNxforum);
+	// log('[handleOpenNxWebViewViaSaga] waitForNavigation completed.');
+
+	// Điều hướng đến NxWebViewScreen với các tham số cần thiết
+	// Đảm bảo 'NxWebViewScreen' là tên route chính xác và nó nhận `site_url`, `redirect_url`.
+	// LƯU Ý: Nếu 'NxWebview' là một screen lồng trong một navigator khác (ví dụ: 'NxcomStackNavigator'),
+	// bạn có thể cần điều hướng như sau:
+	log(`[handleOpenNxWebViewViaSaga] Navigating to 'NxWebview' with site_url: ${site_url}, redirect_url: ${redirect_url}`);
+	// yield call(Navigation.navigate, 'NxcomStackNavigator', { screen: 'NxWebview', params: { site_url, redirect_url } });
+	yield put(appStart({ root: RootEnum.ROOT_NX }));
+	EventEmitter.emit('Nxcom:changeForum', { site_url, redirect_url }); // Phát sự kiện để thông báo rằng navigation đã sẵn sàng
+	// yield call(Navigation.navigate, 'S', { site_url, redirect_url });
+	// log('[handleOpenNxWebViewViaSaga] Navigation.navigate called.');
+};
+
 const root = function* root() {
 	yield takeLatest(types.DEEP_LINKING.OPEN, handleOpen);
 	yield takeLatest(types.DEEP_LINKING.OPEN_VIDEO_CONF, handleClickCallPush);
+	// Giả sử bạn đã định nghĩa types.DEEP_LINKING.OPEN_NX_WEBVIEW_VIA_SAGA trong actionsTypes.ts
+	yield takeLatest(types.DEEP_LINKING.OPEN_NX_WEBVIEW, handleOpenNxWebViewViaSaga);
 };
 export default root;

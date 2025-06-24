@@ -11,6 +11,8 @@ export interface INotification {
 		image: string;
 		soundname: string;
 		action?: { identifier: 'REPLY_ACTION' | 'ACCEPT_ACTION' | 'DECLINE_ACTION' };
+		site_url?: string;
+		post_url?: string;
 	};
 	identifier: string;
 }
