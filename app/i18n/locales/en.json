@@ -540,6 +540,7 @@
   "Notifications": "Notifications",
   "Notify_active_in_this_room": "Notify active users in this room",
   "Notify_all_in_this_room": "Notify all in this room",
+  "NxForums": "NxForums",
   "Off": "Off",
   "Offline": "Offline",
   "Omnichannel": "Omnichannel",
@@ -919,6 +920,5 @@
   "Your_invite_link_will_never_expire": "Your invite link will never expire.",
   "Your_password_is": "Your password is",
   "Your_Password_Must_Have": "Your password must have:",
-  "Your_push_was_sent_to_s_devices": "Your push was sent to {{s}} devices",
-  "NxForums": "NxForums"
+  "Your_push_was_sent_to_s_devices": "Your push was sent to {{s}} devices"
 }
