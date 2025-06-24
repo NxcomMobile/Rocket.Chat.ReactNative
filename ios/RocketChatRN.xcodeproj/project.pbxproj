@@ -101,7 +101,6 @@
 		65AD383A2BFBDF4A00271B39 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 65AD38362BFBDF4A00271B39 /* PrivacyInfo.xcprivacy */; };
 		65B9A71A2AFC24190088956F /* ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 65B9A7192AFC24190088956F /* ringtone.mp3 */; };
 		65B9A71B2AFC24190088956F /* ringtone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 65B9A7192AFC24190088956F /* ringtone.mp3 */; };
-		67C0425C98311B77FB78BCC0 /* Pods_defaults_Rocket_Chat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BD7EDB34151A4D57DA767D /* Pods_defaults_Rocket_Chat.framework */; };
 		79FAC4B32E0A40070067099C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 79FAC4B22E0A40070067099C /* GoogleService-Info.plist */; };
 		79FAC4B42E0A40070067099C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 79FAC4B22E0A40070067099C /* GoogleService-Info.plist */; };
 		7A0129D42C6E8EC800F84A97 /* ShareRocketChatRN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0129D22C6E8B5900F84A97 /* ShareRocketChatRN.swift */; };
@@ -175,8 +174,9 @@
 		A48B46D92D3FFBD200945489 /* A11yFlowModule.m in Sources */ = {isa = PBXBuildFile; fileRef = A48B46D82D3FFBD200945489 /* A11yFlowModule.m */; };
 		A48B46DA2D3FFBD200945489 /* A11yFlowModule.m in Sources */ = {isa = PBXBuildFile; fileRef = A48B46D82D3FFBD200945489 /* A11yFlowModule.m */; };
 		B6EBA588B35DAFEDC28F2C87 /* Pods_defaults_NotificationService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7BB274201D3DF6916FFB77 /* Pods_defaults_NotificationService.framework */; };
-		BC404914E86821389EEB543D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C4F7AA7023CD41EEBD106 /* ExpoModulesProvider.swift */; };
 		DD2BA30A89E64F189C2C24AC /* libWatermelonDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA7E862283664608B3894E34 /* libWatermelonDB.a */; };
+		F414BD1A9882E26635DD8FB4 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9648D8B40CED25F771E68E9 /* ExpoModulesProvider.swift */; };
+		F4D88025877E3432550E358A /* Pods_defaults_NxConnect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34B6897B8CB860674856520 /* Pods_defaults_NxConnect.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -260,6 +260,7 @@
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		06BB44DD4855498082A744AD /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		108A778542496F2487E082DF /* Pods-defaults-NxConnect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-defaults-NxConnect.release.xcconfig"; path = "Target Support Files/Pods-defaults-NxConnect/Pods-defaults-NxConnect.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Rocket.Chat Experimental.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rocket.Chat Experimental.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RocketChatRN/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RocketChatRN/Info.plist; sourceTree = "<group>"; };
@@ -407,13 +408,11 @@
 		1EFEB5992493B6640072EDC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1EFEB5A12493B67D0072EDC0 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
 		2C7BB274201D3DF6916FFB77 /* Pods_defaults_NotificationService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_defaults_NotificationService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		391C4F7AA7023CD41EEBD106 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-defaults-Rocket.Chat/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		45D5C142B655F8EFD006792C /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-defaults-RocketChatRN/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		4905DEE889F66393A13B0B69 /* Pods-defaults-RocketChatRN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-defaults-RocketChatRN.release.xcconfig"; path = "Target Support Files/Pods-defaults-RocketChatRN/Pods-defaults-RocketChatRN.release.xcconfig"; sourceTree = "<group>"; };
 		60B2A6A31FC4588700BD58E5 /* RocketChatRN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = RocketChatRN.entitlements; path = RocketChatRN/RocketChatRN.entitlements; sourceTree = "<group>"; };
 		65AD38362BFBDF4A00271B39 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		65B9A7192AFC24190088956F /* ringtone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ringtone.mp3; sourceTree = "<group>"; };
-		74BD7EDB34151A4D57DA767D /* Pods_defaults_Rocket_Chat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_defaults_Rocket_Chat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79FAC4B22E0A40070067099C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7A0129D22C6E8B5900F84A97 /* ShareRocketChatRN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareRocketChatRN.swift; sourceTree = "<group>"; };
 		7A0D62D1242AB187006D5C06 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -431,11 +430,14 @@
 		7AE864962D88AD4800912BA1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7AE864972D88AD4800912BA1 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		7AE8649A2D88ADCF00912BA1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		97D3FF5E3B1E377201601547 /* Pods-defaults-NxConnect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-defaults-NxConnect.debug.xcconfig"; path = "Target Support Files/Pods-defaults-NxConnect/Pods-defaults-NxConnect.debug.xcconfig"; sourceTree = "<group>"; };
+		A34B6897B8CB860674856520 /* Pods_defaults_NxConnect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_defaults_NxConnect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A48B46D72D3FFBD200945489 /* A11yFlowModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = A11yFlowModule.h; sourceTree = "<group>"; };
 		A48B46D82D3FFBD200945489 /* A11yFlowModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = A11yFlowModule.m; sourceTree = "<group>"; };
 		B14611052F10FD1E1BC46ECD /* Pods-defaults-Rocket.Chat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-defaults-Rocket.Chat.debug.xcconfig"; path = "Target Support Files/Pods-defaults-Rocket.Chat/Pods-defaults-Rocket.Chat.debug.xcconfig"; sourceTree = "<group>"; };
 		B37C79D9BD0742CE936B6982 /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		BA7E862283664608B3894E34 /* libWatermelonDB.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libWatermelonDB.a; sourceTree = "<group>"; };
+		D9648D8B40CED25F771E68E9 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-defaults-NxConnect/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		E9E0958B5C1C15F3DF8DA334 /* Pods-defaults-Rocket.Chat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-defaults-Rocket.Chat.release.xcconfig"; path = "Target Support Files/Pods-defaults-Rocket.Chat/Pods-defaults-Rocket.Chat.release.xcconfig"; sourceTree = "<group>"; };
 		F7C8D0F218FCBAF40E8A8DAC /* Pods_defaults_RocketChatRN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_defaults_RocketChatRN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FADABAD6CDF068E1F5ED1148 /* Pods-defaults-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-defaults-NotificationService.release.xcconfig"; path = "Target Support Files/Pods-defaults-NotificationService/Pods-defaults-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
@@ -488,7 +490,7 @@
 				7AAB3E3D257E6A6E00707CF6 /* JavaScriptCore.framework in Frameworks */,
 				7AAB3E3E257E6A6E00707CF6 /* libz.tbd in Frameworks */,
 				7AAB3E3F257E6A6E00707CF6 /* libWatermelonDB.a in Frameworks */,
-				67C0425C98311B77FB78BCC0 /* Pods_defaults_Rocket_Chat.framework in Frameworks */,
+				F4D88025877E3432550E358A /* Pods_defaults_NxConnect.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -905,8 +907,8 @@
 			isa = PBXGroup;
 			children = (
 				A19B6D9832C0496282053365 /* NotificationService */,
-				989BF9C58F3C91FDAA6C0452 /* Rocket.Chat */,
 				CADEA0916086EF72D141FF5A /* RocketChatRN */,
+				A42E66ED99EB0B86CD73B71E /* NxConnect */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
@@ -920,6 +922,8 @@
 				E9E0958B5C1C15F3DF8DA334 /* Pods-defaults-Rocket.Chat.release.xcconfig */,
 				15D10B9EEDF949B2A4C7C95A /* Pods-defaults-RocketChatRN.debug.xcconfig */,
 				4905DEE889F66393A13B0B69 /* Pods-defaults-RocketChatRN.release.xcconfig */,
+				97D3FF5E3B1E377201601547 /* Pods-defaults-NxConnect.debug.xcconfig */,
+				108A778542496F2487E082DF /* Pods-defaults-NxConnect.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -965,20 +969,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		989BF9C58F3C91FDAA6C0452 /* Rocket.Chat */ = {
-			isa = PBXGroup;
-			children = (
-				391C4F7AA7023CD41EEBD106 /* ExpoModulesProvider.swift */,
-			);
-			name = Rocket.Chat;
-			sourceTree = "<group>";
-		};
 		A19B6D9832C0496282053365 /* NotificationService */ = {
 			isa = PBXGroup;
 			children = (
 				194D9A8897F4A486C2C6F89A /* ExpoModulesProvider.swift */,
 			);
 			name = NotificationService;
+			sourceTree = "<group>";
+		};
+		A42E66ED99EB0B86CD73B71E /* NxConnect */ = {
+			isa = PBXGroup;
+			children = (
+				D9648D8B40CED25F771E68E9 /* ExpoModulesProvider.swift */,
+			);
+			name = NxConnect;
 			sourceTree = "<group>";
 		};
 		AF5E16F0398347E6A80C8CBE /* Resources */ = {
@@ -1014,8 +1018,8 @@
 				B37C79D9BD0742CE936B6982 /* libc++.tbd */,
 				06BB44DD4855498082A744AD /* libz.tbd */,
 				2C7BB274201D3DF6916FFB77 /* Pods_defaults_NotificationService.framework */,
-				74BD7EDB34151A4D57DA767D /* Pods_defaults_Rocket_Chat.framework */,
 				F7C8D0F218FCBAF40E8A8DAC /* Pods_defaults_RocketChatRN.framework */,
+				A34B6897B8CB860674856520 /* Pods_defaults_NxConnect.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1116,6 +1120,7 @@
 				BB3CB1CC5BEC4C3AC380F5D7 /* [CP] Embed Pods Frameworks */,
 				ECF8425EFBDED06784F58794 /* [CP] Copy Pods Resources */,
 				79FAC4B52E0A48620067099C /* ShellScript */,
+				792E655F2E0A9C03007693B3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1371,7 +1376,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-defaults-Rocket.Chat/expo-configure-project.sh\"\n";
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-defaults-NxConnect/expo-configure-project.sh\"\n";
+		};
+		792E655F2E0A9C03007693B3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\necho \"Ký thủ công các framework...\"\nfind \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\" -maxdepth 1 -name \"*.framework\" | while read -r framework; do\n  /usr/bin/codesign --force --deep --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements,flags --timestamp=none \"$framework\"\ndone\n";
 		};
 		79FAC4B52E0A48620067099C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1641,7 +1663,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-defaults-Rocket.Chat/Pods-defaults-Rocket.Chat-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-defaults-NxConnect/Pods-defaults-NxConnect-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
 			);
@@ -1652,7 +1674,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-defaults-Rocket.Chat/Pods-defaults-Rocket.Chat-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-defaults-NxConnect/Pods-defaults-NxConnect-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D611FC7F59B07AE798A93F17 /* [CP] Check Pods Manifest.lock */ = {
@@ -1670,7 +1692,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-defaults-Rocket.Chat-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-defaults-NxConnect-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1683,7 +1705,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-defaults-Rocket.Chat/Pods-defaults-Rocket.Chat-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-defaults-NxConnect/Pods-defaults-NxConnect-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/BugsnagReactNative/Bugsnag.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXApplication/ExpoApplication_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
@@ -1776,7 +1798,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-defaults-Rocket.Chat/Pods-defaults-Rocket.Chat-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-defaults-NxConnect/Pods-defaults-NxConnect-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FB000258FD6763CDCC02BCF7 /* [CP] Copy Pods Resources */ = {
@@ -2039,7 +2061,7 @@
 				7A8B30772BCD9D3F00146A40 /* SSLPinning.mm in Sources */,
 				7AAB3E30257E6A6E00707CF6 /* NotificationType.swift in Sources */,
 				7AAB3E31257E6A6E00707CF6 /* SendMessage.swift in Sources */,
-				BC404914E86821389EEB543D /* ExpoModulesProvider.swift in Sources */,
+				F414BD1A9882E26635DD8FB4 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2450,7 +2472,7 @@
 		};
 		7AAB3E50257E6A6E00707CF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B14611052F10FD1E1BC46ECD /* Pods-defaults-Rocket.Chat.debug.xcconfig */;
+			baseConfigurationReference = 97D3FF5E3B1E377201601547 /* Pods-defaults-NxConnect.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -2513,7 +2535,7 @@
 		};
 		7AAB3E51257E6A6E00707CF6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E9E0958B5C1C15F3DF8DA334 /* Pods-defaults-Rocket.Chat.release.xcconfig */;
+			baseConfigurationReference = 108A778542496F2487E082DF /* Pods-defaults-NxConnect.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
