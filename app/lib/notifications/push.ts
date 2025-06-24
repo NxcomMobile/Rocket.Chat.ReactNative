@@ -70,6 +70,7 @@ export const pushNotificationConfigure = (onNotification: (notification: INotifi
 
 	Notifications.events().registerRemoteNotificationsRegistered(async (event: Registered) => {
 		deviceToken = event.deviceToken;
+		fcmToken = event.deviceToken; // Lưu FCM token vào biến toàn cục
 		console.log('[Push Notification]  Device token registered:', deviceToken);
 
 		if (deviceToken && isIOS) {

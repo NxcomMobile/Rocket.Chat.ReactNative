@@ -2460,7 +2460,7 @@
 				CODE_SIGN_ENTITLEMENTS = RocketChatRN/RocketChatRN.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 22;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = VLFZSJDVC5;
 				ENABLE_BITCODE = NO;
@@ -2477,6 +2477,7 @@
 					"$(SRCROOT)/../node_modules/react-native-mmkv-storage/ios/**",
 				);
 				INFOPLIST_FILE = RocketChatRN/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NxConnect;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2487,6 +2488,7 @@
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 					"$(inherited)",
 				);
+				MARKETING_VERSION = 2.0.0;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
@@ -2521,7 +2523,7 @@
 				CODE_SIGN_ENTITLEMENTS = RocketChatRN/RocketChatRN.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 22;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = VLFZSJDVC5;
 				ENABLE_BITCODE = NO;
@@ -2537,6 +2539,7 @@
 					"$(SRCROOT)/../node_modules/react-native-mmkv-storage/ios/**",
 				);
 				INFOPLIST_FILE = RocketChatRN/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NxConnect;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2547,6 +2550,7 @@
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 					"$(inherited)",
 				);
+				MARKETING_VERSION = 2.0.0;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",

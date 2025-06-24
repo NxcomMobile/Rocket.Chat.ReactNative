@@ -1,6 +1,6 @@
 {
 	"name": "RocketChatRN",
-	"server": "http://192.168.10.49:3000",
+	"server": "https://chat.eup.vn",
 	"scheme": "nxforum",
 	"expo": {
 	  "name": "NxForum",

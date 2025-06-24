@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "886801650139",
+    "project_id": "nxforum-3af4e",
+    "storage_bucket": "nxforum-3af4e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886801650139:android:f3fd9f52387a66652ad7fe",
+        "android_client_info": {
+          "package_name": "org.nxcom.nxforum"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvC7Sd6c1_IKb5UitryzfuJdwtjBm5msE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
