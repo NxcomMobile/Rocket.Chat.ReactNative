@@ -1,18 +1,41 @@
 import React from 'react';
-import { View } from 'react-native';
-import { KeyboardRegistry } from 'react-native-ui-lib/keyboard';
+
+import {
+	StyleSheet,
+	View
+} from 'react-native';
 import { Provider } from 'react-redux';
 
-import store from '../../../lib/store';
-import EmojiPicker from '../../EmojiPicker';
-import { ThemeContext, TSupportedThemes } from '../../../theme';
-import { EventTypes } from '../../EmojiPicker/interfaces';
 import { IEmoji } from '../../../definitions';
 import { colors } from '../../../lib/constants';
+// Các đường dẫn import có thể cần được điều chỉnh lại cho đúng với cấu trúc thư mục của bạn
+import store from '../../../lib/store';
+import {
+	ThemeContext,
+	TSupportedThemes
+} from '../../../theme';
+import EmojiPicker from '../../EmojiPicker';
+import { EventTypes } from '../../EmojiPicker/interfaces';
 
-const EmojiKeyboard = ({ theme }: { theme: TSupportedThemes }) => {
+const styles = StyleSheet.create({
+	container: {
+		flex: 1
+	}
+});
+
+// Component mới sẽ nhận prop onEmojiSelected
+interface IEmojiKeyboardProps {
+	theme: TSupportedThemes;
+	onEmojiSelected: (emoji: IEmoji) => void;
+}
+
+const EmojiKeyboard = ({ theme, onEmojiSelected }: IEmojiKeyboardProps) => {
+	// Hàm này sẽ được gọi bởi EmojiPicker khi có sự kiện
 	const onItemClicked = (eventType: EventTypes, emoji?: IEmoji) => {
-		KeyboardRegistry.onItemSelected('EmojiKeyboard', { eventType, emoji });
+		// Chúng ta chỉ quan tâm đến sự kiện nhấn vào emoji
+		if (eventType === EventTypes.EMOJI_PRESSED && emoji) {
+			onEmojiSelected(emoji);
+		}
 	};
 
 	return (
@@ -20,9 +43,10 @@ const EmojiKeyboard = ({ theme }: { theme: TSupportedThemes }) => {
 			<ThemeContext.Provider
 				value={{
 					theme,
-					colors: colors[theme]
-				}}>
-				<View style={{ flex: 1 }} testID='message-composer-keyboard-emoji'>
+					colors: colors[ theme ]
+				}}
+			>
+				<View style={styles.container} testID='message-composer-keyboard-emoji'>
 					<EmojiPicker onItemClicked={onItemClicked} isEmojiKeyboard={true} />
 				</View>
 			</ThemeContext.Provider>
@@ -30,4 +54,5 @@ const EmojiKeyboard = ({ theme }: { theme: TSupportedThemes }) => {
 	);
 };
 
-KeyboardRegistry.registerKeyboard('EmojiKeyboard', () => EmojiKeyboard);
+// Không còn dòng KeyboardRegistry.registerKeyboard nữa
+export default EmojiKeyboard;

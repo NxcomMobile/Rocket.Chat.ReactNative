@@ -1,13 +1,44 @@
-import React, { ReactElement, useRef, useImperativeHandle, useCallback } from 'react';
-import { View, StyleSheet, NativeModules } from 'react-native';
-import { KeyboardAccessoryView } from 'react-native-ui-lib/keyboard';
-import { useBackHandler } from '@react-native-community/hooks';
+import React, {
+	ReactElement,
+	useCallback,
+	useImperativeHandle,
+	useRef
+} from 'react';
+
+// Import KeyboardAvoidingView
+import {
+	KeyboardAvoidingView as RNCKeyboardAvoidingView,
+	Platform,
+	StyleSheet,
+	View
+} from 'react-native';
+
 import { Q } from '@nozbe/watermelondb';
+// Đã xóa: import { KeyboardAccessoryView } from 'react-native-ui-lib/keyboard';
+import { useBackHandler } from '@react-native-community/hooks';
 import { useFocusEffect } from '@react-navigation/native';
 
+import { IEmoji } from '../../definitions';
+import database from '../../lib/database';
+import { sanitizeLikeString } from '../../lib/database/utils';
+import useShortnameToUnicode from '../../lib/hooks/useShortnameToUnicode';
+import { generateTriggerId } from '../../lib/methods';
+import { isIOS } from '../../lib/methods/helpers';
+import log from '../../lib/methods/helpers/log';
+import { Services } from '../../lib/services';
+import { useTheme } from '../../theme';
 import { useRoomContext } from '../../views/RoomView/context';
-import { Autocomplete, Toolbar, EmojiSearchbar, ComposerInput, Left, Right, Quotes, SendThreadToChannel } from './components';
-import { MIN_HEIGHT, TIMEOUT_CLOSE_EMOJI_KEYBOARD } from './constants';
+import {
+	Autocomplete,
+	ComposerInput,
+	Left,
+	Right
+} from './components';
+import { RecordAudio } from './components/RecordAudio';
+import {
+	MIN_HEIGHT,
+	TIMEOUT_CLOSE_EMOJI_KEYBOARD
+} from './constants';
 import {
 	MessageInnerContext,
 	useAlsoSendThreadToChannel,
@@ -16,21 +47,11 @@ import {
 	useShowEmojiKeyboard,
 	useShowEmojiSearchbar
 } from './context';
-import { IComposerInput, ITrackingView } from './interfaces';
-import { isIOS } from '../../lib/methods/helpers';
-import { useTheme } from '../../theme';
-import { EventTypes } from '../EmojiPicker/interfaces';
-import { IEmoji } from '../../definitions';
-import database from '../../lib/database';
-import { sanitizeLikeString } from '../../lib/database/utils';
-import { generateTriggerId } from '../../lib/methods';
-import { Services } from '../../lib/services';
-import log from '../../lib/methods/helpers/log';
-import { prepareQuoteMessage, insertEmojiAtCursor } from './helpers';
-import { RecordAudio } from './components/RecordAudio';
-import { useKeyboardListener } from './hooks';
-import { emitter } from '../../lib/methods/helpers/emitter';
-import useShortnameToUnicode from '../../lib/hooks/useShortnameToUnicode';
+import {
+	insertEmojiAtCursor,
+	prepareQuoteMessage
+} from './helpers';
+import { IComposerInput } from './interfaces';
 
 const styles = StyleSheet.create({
 	container: {
@@ -39,11 +60,14 @@ const styles = StyleSheet.create({
 		minHeight: MIN_HEIGHT
 	},
 	input: {
-		flexDirection: 'row'
+		flexDirection: 'row',
+		marginBottom: Platform.OS === 'ios' ? 20 : 0
 	}
 });
 
 require('./components/EmojiKeyboard');
+const EmojiKeyboardCustom = React.lazy(() => import('./components/EmojiKeyboard'));
+
 
 export const MessageComposer = ({
 	forwardedRef,
@@ -57,10 +81,9 @@ export const MessageComposer = ({
 		getTextAndClear: () => '',
 		getText: () => '',
 		getSelection: () => ({ start: 0, end: 0 }),
-		setInput: () => {},
-		onAutocompleteItemSelected: () => {}
+		setInput: () => { },
+		onAutocompleteItemSelected: () => { }
 	});
-	const trackingViewRef = useRef<ITrackingView>({ resetTracking: () => {}, getNativeProps: () => ({ trackingViewHeight: 0 }) });
 	const { colors, theme } = useTheme();
 	const { rid, tmid, action, selectedMessages, sharing, editRequest, onSendMessage } = useRoomContext();
 	const showEmojiKeyboard = useShowEmojiKeyboard();
@@ -70,18 +93,16 @@ export const MessageComposer = ({
 		openSearchEmojiKeyboard,
 		closeEmojiKeyboard,
 		closeSearchEmojiKeyboard,
-		setTrackingViewHeight,
 		setAlsoSendThreadToChannel,
 		setAutocompleteParams
 	} = useMessageComposerApi();
 	const recordingAudio = useRecordingAudio();
 	const { formatShortnameToUnicode } = useShortnameToUnicode();
-	useKeyboardListener(trackingViewRef);
 
 	useFocusEffect(
 		useCallback(() => {
-			trackingViewRef.current?.resetTracking();
-		}, [recordingAudio])
+			// Logic cũ liên quan đến tracking view có thể được loại bỏ hoặc xem xét lại
+		}, [ recordingAudio ])
 	);
 
 	useImperativeHandle(forwardedRef, () => ({
@@ -95,14 +116,18 @@ export const MessageComposer = ({
 			closeSearchEmojiKeyboard();
 			return true;
 		}
+		if (showEmojiKeyboard) {
+			closeEmojiKeyboard();
+			return true;
+		}
 		return false;
 	});
 
-	const closeEmojiKeyboardAndAction = (action?: Function, params?: any) => {
+	const closeEmojiKeyboardAndAction = (actionFn?: Function, params?: any) => {
 		if (showEmojiKeyboard) {
 			closeEmojiKeyboard();
 		}
-		setTimeout(() => action && action(params), showEmojiKeyboard && isIOS ? TIMEOUT_CLOSE_EMOJI_KEYBOARD : undefined);
+		setTimeout(() => actionFn && actionFn(params), showEmojiKeyboard && isIOS ? TIMEOUT_CLOSE_EMOJI_KEYBOARD : undefined);
 	};
 
 	const handleSendMessage = async () => {
@@ -120,7 +145,7 @@ export const MessageComposer = ({
 		const textFromInput = composerInputComponentRef.current.getTextAndClear();
 
 		if (action === 'edit') {
-			return editRequest?.({ id: selectedMessages[0], msg: textFromInput, rid });
+			return editRequest?.({ id: selectedMessages[ 0 ], msg: textFromInput, rid });
 		}
 
 		if (action === 'quote') {
@@ -129,8 +154,7 @@ export const MessageComposer = ({
 			return;
 		}
 
-		// Slash command
-		if (textFromInput[0] === '/') {
+		if (textFromInput[ 0 ] === '/') {
 			const db = database.active;
 			const commandsCollection = db.get('slash_commands');
 			const command = textFromInput.replace(/ .*/, '').slice(1);
@@ -139,7 +163,7 @@ export const MessageComposer = ({
 			if (slashCommand.length > 0) {
 				try {
 					const messageWithoutCommand = textFromInput.replace(/([^\s]+)/, '').trim();
-					const [{ appId }] = slashCommand;
+					const [ { appId } ] = slashCommand;
 					const triggerId = generateTriggerId(appId);
 					await Services.runSlashCommand(command, rid, messageWithoutCommand, triggerId, tmid);
 				} catch (e) {
@@ -149,84 +173,40 @@ export const MessageComposer = ({
 			}
 		}
 
-		// Hide autocomplete
 		setAutocompleteParams({ text: '', type: null, params: '' });
-
-		// Text message
 		onSendMessage?.(textFromInput, alsoSendThreadToChannel);
 	};
 
-	const onKeyboardItemSelected = (_keyboardId: string, params: { eventType: EventTypes; emoji: IEmoji }) => {
-		const { eventType, emoji } = params;
+	const onEmojiSelected = (emoji: IEmoji) => {
 		const text = composerInputComponentRef.current.getText();
-		let newText = '';
-		// if input has an active cursor
 		const { start, end } = composerInputComponentRef.current.getSelection();
 		const cursor = Math.max(start, end);
-		let newCursor;
-
-		switch (eventType) {
-			case EventTypes.BACKSPACE_PRESSED:
-				const emojiRegex = /\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]/;
-				let charsToRemove = 1;
-				const lastEmoji = text.substr(cursor > 0 ? cursor - 2 : text.length - 2, cursor > 0 ? cursor : text.length);
-				// Check if last character is an emoji
-				if (emojiRegex.test(lastEmoji)) charsToRemove = 2;
-				newText =
-					text.substr(0, (cursor > 0 ? cursor : text.length) - charsToRemove) + text.substr(cursor > 0 ? cursor : text.length);
-				newCursor = cursor - charsToRemove;
-				composerInputComponentRef.current.setInput(newText, { start: newCursor, end: newCursor });
-				break;
-			case EventTypes.EMOJI_PRESSED:
-				let emojiText = '';
-				if (typeof emoji === 'string') {
-					emojiText = formatShortnameToUnicode(`:${emoji}:`);
-				} else {
-					emojiText = `:${emoji.name}:`;
-				}
-				const { updatedCursor, updatedText } = insertEmojiAtCursor(text, emojiText, cursor);
-				composerInputComponentRef.current.setInput(updatedText, { start: updatedCursor, end: updatedCursor });
-				break;
-			case EventTypes.SEARCH_PRESSED:
-				openSearchEmojiKeyboard();
-				break;
-			default:
-			// Do nothing
+		let emojiText = '';
+		if (typeof emoji === 'string') {
+			emojiText = formatShortnameToUnicode(`:${emoji}:`);
+		} else {
+			emojiText = `:${emoji.name}:`;
 		}
+		const { updatedCursor, updatedText } = insertEmojiAtCursor(text, emojiText, cursor);
+		composerInputComponentRef.current.setInput(updatedText, { start: updatedCursor, end: updatedCursor });
 	};
-
-	const onEmojiSelected = (emoji: IEmoji) => {
-		onKeyboardItemSelected('EmojiKeyboard', { eventType: EventTypes.EMOJI_PRESSED, emoji });
-	};
-
-	const onKeyboardResigned = () => {
-		if (!showEmojiSearchbar) {
-			closeEmojiKeyboard();
-		}
-	};
-
-	const onHeightChanged = (height: number) => {
-		setTrackingViewHeight(height);
-		emitter.emit(`setComposerHeight${tmid ? 'Thread' : ''}`, height);
-	};
-
-	const backgroundColor = action === 'edit' ? colors.statusBackgroundWarning2 : colors.surfaceLight;
 
 	const renderContent = () => {
+		const backgroundColor = action === 'edit' ? colors.statusBackgroundWarning2 : colors.surfaceLight;
 		if (recordingAudio) {
 			return <RecordAudio />;
 		}
 		return (
-			<View style={[styles.container, { backgroundColor, borderTopColor: colors.strokeLight }]} testID='message-composer'>
+			<View style={[ styles.container, { backgroundColor, borderTopColor: colors.strokeLight } ]} testID='message-composer'>
 				<View style={styles.input}>
 					<Left />
 					<ComposerInput ref={composerInputComponentRef} inputRef={composerInputRef} />
 					<Right />
 				</View>
-				<Quotes />
+				{/* <Quotes />
 				<Toolbar />
 				<EmojiSearchbar />
-				<SendThreadToChannel />
+				<SendThreadToChannel /> */}
 				{children}
 			</View>
 		);
@@ -234,21 +214,17 @@ export const MessageComposer = ({
 
 	return (
 		<MessageInnerContext.Provider value={{ sendMessage: handleSendMessage, onEmojiSelected, closeEmojiKeyboardAndAction }}>
-			<KeyboardAccessoryView
-				ref={(ref: ITrackingView) => (trackingViewRef.current = ref)}
-				renderContent={renderContent}
-				kbInputRef={composerInputRef}
-				kbComponent={showEmojiKeyboard ? 'EmojiKeyboard' : null}
-				kbInitialProps={{ theme }}
-				onKeyboardResigned={onKeyboardResigned}
-				onItemSelected={onKeyboardItemSelected}
-				trackInteractive
-				requiresSameParentToManageScrollView
-				addBottomView
-				bottomViewColor={backgroundColor}
-				iOSScrollBehavior={NativeModules.KeyboardTrackingViewTempManager?.KeyboardTrackingScrollBehaviorFixedOffset}
-				onHeightChanged={onHeightChanged}
-			/>
+			<RNCKeyboardAvoidingView
+				behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+				keyboardVerticalOffset={64} // Bạn có thể cần tinh chỉnh giá trị này
+			>
+				{renderContent()}
+				{showEmojiKeyboard && (
+					<React.Suspense fallback={null}>
+						<EmojiKeyboardCustom onEmojiSelected={onEmojiSelected} />
+					</React.Suspense>
+				)}
+			</RNCKeyboardAvoidingView>
 			<Autocomplete onPress={item => composerInputComponentRef.current.onAutocompleteItemSelected(item)} />
 		</MessageInnerContext.Provider>
 	);
