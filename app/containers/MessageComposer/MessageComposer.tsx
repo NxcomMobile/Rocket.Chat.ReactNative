@@ -31,8 +31,12 @@ import { useRoomContext } from '../../views/RoomView/context';
 import {
 	Autocomplete,
 	ComposerInput,
+	EmojiSearchbar,
 	Left,
-	Right
+	Quotes,
+	Right,
+	SendThreadToChannel,
+	Toolbar
 } from './components';
 import { RecordAudio } from './components/RecordAudio';
 import {
@@ -60,8 +64,7 @@ const styles = StyleSheet.create({
 		minHeight: MIN_HEIGHT
 	},
 	input: {
-		flexDirection: 'row',
-		marginBottom: Platform.OS === 'ios' ? 20 : 0
+		flexDirection: 'row'
 	}
 });
 
@@ -203,10 +206,11 @@ export const MessageComposer = ({
 					<ComposerInput ref={composerInputComponentRef} inputRef={composerInputRef} />
 					<Right />
 				</View>
-				{/* <Quotes />
+				<Quotes />
 				<Toolbar />
+				<View style={{ height: 20 }} />
 				<EmojiSearchbar />
-				<SendThreadToChannel /> */}
+				<SendThreadToChannel />
 				{children}
 			</View>
 		);

@@ -4,6 +4,10 @@ import React, {
 	useEffect
 } from 'react';
 
+import {
+	Alert,
+	BackHandler
+} from 'react-native';
 import { connect } from 'react-redux';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -57,6 +61,47 @@ const App = memo(({ root, isMasterDetail }: { root: string; isMasterDetail: bool
 			setCurrentScreen(currentRouteName);
 		}
 	}, [ root ]);
+
+
+	// --- BẮT ĐẦU THÊM MỚI ---
+	// 2. Thêm useEffect để xử lý nút Back trên Android
+	useEffect(() => {
+		const onBackPress = () => {
+			// Sử dụng navigationRef đã có sẵn của bạn
+			const navigation = Navigation.navigationRef.current;
+
+			// Nếu chưa thể điều hướng hoặc không thể back, chúng ta sẽ xử lý
+			if (navigation && !navigation.canGoBack()) {
+				Alert.alert(
+					"Confirm Exit", // Tiêu đề
+					"Are you sure you want to exit the app?", // Nội dung
+					[
+						{
+							text: "Cancel",
+							onPress: () => null,
+							style: "cancel"
+						},
+						{
+							text: "Exit",
+							onPress: () => BackHandler.exitApp()
+						}
+					]
+				);
+
+				// Return true để chặn hành động back mặc định
+				return true;
+			}
+
+			// Nếu có thể back, để React Navigation tự xử lý
+			return false;
+		};
+
+		const subscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+		return () => subscription.remove();
+	}, []); // Dependency array rỗng để đảm bảo nó chỉ chạy 1 lần
+	// --- KẾT THÚC THÊM MỚI ---
+
 
 	if (!root) {
 		return null;

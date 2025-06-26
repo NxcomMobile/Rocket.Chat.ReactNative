@@ -1,13 +1,18 @@
 import React, { ReactElement } from 'react';
 
-import { useFocused, useShowEmojiKeyboard, useShowEmojiSearchbar, useShowMarkdownToolbar } from '../../context';
-import { Markdown } from './Markdown';
+import {
+	useFocused,
+	useShowEmojiKeyboard,
+	useShowEmojiSearchbar,
+	useShowMarkdownToolbar
+} from '../../context';
+import { MicOrSendButton } from '../Buttons';
+import { CancelEdit } from '../CancelEdit';
+import { Container } from './Container';
 import { Default } from './Default';
 import { EmojiKeyboard } from './EmojiKeyboard';
-import { Container } from './Container';
-import { MicOrSendButton } from '../Buttons';
 import { EmptySpace } from './EmptySpace';
-import { CancelEdit } from '../CancelEdit';
+import { Markdown } from './Markdown';
 
 export const Toolbar = (): ReactElement | null => {
 	const focused = useFocused();

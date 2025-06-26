@@ -1,10 +1,13 @@
 import React, { ReactElement } from 'react';
 
-import { ActionsButton, BaseButton } from '..';
-import { useMessageComposerApi } from '../../context';
-import { Gap } from '../Gap';
+import {
+	ActionsButton,
+	BaseButton
+} from '..';
 import { emitter } from '../../../../lib/methods/helpers/emitter';
 import { useRoomContext } from '../../../../views/RoomView/context';
+import { useMessageComposerApi } from '../../context';
+import { Gap } from '../Gap';
 
 export const Default = (): ReactElement | null => {
 	const { sharing } = useRoomContext();
@@ -18,13 +21,13 @@ export const Default = (): ReactElement | null => {
 					<Gap />
 				</>
 			)}
-			<BaseButton
+			{/* <BaseButton
 				onPress={openEmojiKeyboard}
 				testID='message-composer-open-emoji'
 				accessibilityLabel='Open_emoji_selector'
 				icon='emoji'
-			/>
-			<Gap />
+			/> */}
+			{/* <Gap /> */}
 			<BaseButton
 				onPress={() => setMarkdownToolbar(true)}
 				testID='message-composer-open-markdown'
