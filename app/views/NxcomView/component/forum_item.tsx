@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-    Alert,
     Image,
     StyleSheet,
     Text,
@@ -33,33 +32,35 @@ const ForumItem = ({ forum }: { forum: any }) => {
     const handlePress = async () => {
         // return;
         if (!isAuthenticated) {
-            Alert.alert(
-                'Thông báo',
-                'Bạn chưa đăng nhập diễn đàn này, bạn có muốn tham gia với tư cách là khách?',
-                [
-                    {
-                        text: 'Không',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel'
-                    },
-                    {
-                        text: 'Có',
-                        onPress: () => {
-                            EventEmitter.emit('Nxcom:changeForum', {
-                                site_url: forum.site,
-                                redirect_url: forum.site,
-                                title: forum.title,
-                                role: 'guest'
-                            }); // Cast to TEventEmitterEmmitArgs
-                            // Navigation.navigate('NxWebview', {
-                            //     site_url: forum.site,
-                            //     redirect_url: forum.site,
-                            //     title: forum.title,
-                            //     role: 'guest'
-                            // });
-                        }
-                    }
-                ])
+            // Alert.alert(
+            //     'Thông báo',
+            //     'Bạn chưa đăng nhập diễn đàn này, bạn có muốn tham gia với tư cách là khách?',
+            //     [
+            //         {
+            //             text: 'Không',
+            //             onPress: () => console.log('Cancel Pressed'),
+            //             style: 'cancel'
+            //         },
+            //         {
+            //             text: 'Có',
+            //             onPress: () => {
+            //                 EventEmitter.emit('Nxcom:changeForum', {
+            //                     site_url: forum.site,
+            //                     redirect_url: forum.site,
+            //                     title: forum.title,
+            //                     role: 'guest'
+            //                 }); // Cast to TEventEmitterEmmitArgs
+            //                 // Navigation.navigate('NxWebview', {
+            //                 //     site_url: forum.site,
+            //                 //     redirect_url: forum.site,
+            //                 //     title: forum.title,
+            //                 //     role: 'guest'
+            //                 // });
+            //             }
+            //         }
+            //     ])
+            // return;
+            userNotExist();
             return;
         }
         // R.Loading.show();
@@ -100,33 +101,39 @@ const ForumItem = ({ forum }: { forum: any }) => {
     };
 
     const userNotExist = () => {
-        Alert.alert(
-            'Thông báo',
-            'Bạn chưa tham gia diễn đàn này, bạn có muốn tham gia với tư cách là khách?',
-            [
-                {
-                    text: 'Không',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel'
-                },
-                {
-                    text: 'Có',
-                    onPress: () => {
-                        EventEmitter.emit('Nxcom:changeForum', { // Cast to TEventEmitterEmmitArgs
-                            site_url: forum.site,
-                            redirect_url: forum.site,
-                            title: forum.title,
-                            role: 'guest'
-                        });
-                        // Navigation.navigate('NxWebview', {
-                        //     site_url: forum.site,
-                        //     redirect_url: forum.site,
-                        //     title: forum.title,
-                        //     role: 'guest'
-                        // });
-                    }
-                }
-            ])
+        EventEmitter.emit('Nxcom:changeForum', { // Cast to TEventEmitterEmmitArgs
+            site_url: forum.site,
+            redirect_url: forum.site,
+            title: forum.title,
+            role: 'guest'
+        });
+        // Alert.alert(
+        //     'Thông báo',
+        //     'Bạn chưa tham gia diễn đàn này, bạn có muốn tham gia với tư cách là khách?',
+        //     [
+        //         {
+        //             text: 'Không',
+        //             onPress: () => console.log('Cancel Pressed'),
+        //             style: 'cancel'
+        //         },
+        //         {
+        //             text: 'Có',
+        //             onPress: () => {
+        //                 EventEmitter.emit('Nxcom:changeForum', { // Cast to TEventEmitterEmmitArgs
+        //                     site_url: forum.site,
+        //                     redirect_url: forum.site,
+        //                     title: forum.title,
+        //                     role: 'guest'
+        //                 });
+        //                 // Navigation.navigate('NxWebview', {
+        //                 //     site_url: forum.site,
+        //                 //     redirect_url: forum.site,
+        //                 //     title: forum.title,
+        //                 //     role: 'guest'
+        //                 // });
+        //             }
+        //         }
+        //     ])
     }
 
     const refreshToken = async () => {
