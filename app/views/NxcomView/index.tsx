@@ -69,9 +69,11 @@ const NxcomView = ({ navigation }: any): React.ReactElement => {
         //     title: I18n.t('NxForums')
         // };
 
-        if (!isMasterDetail) {
-            options.headerLeft = () => <HeaderButton.Drawer accessibilityLabel={I18n.t('Open_sidebar')} navigation={navigation} />;
-        }
+        // if (!isMasterDetail) {
+        //     options.headerLeft = () => <HeaderButton.Drawer accessibilityLabel={I18n.t('Open_sidebar')} navigation={navigation} />;
+        // }
+        options.headerLeft = () => <HeaderButton.Drawer accessibilityLabel={I18n.t('Open_sidebar')} navigation={navigation} />;
+
         options.headerRight = () => <HeaderButton.Item iconName='refresh' onPress={() => EventEmitter.emit('Nxcom:reloadWebView')} />;
 
         navigation.setOptions(options);

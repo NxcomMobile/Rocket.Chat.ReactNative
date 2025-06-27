@@ -1,10 +1,13 @@
-import { DarkTheme, DefaultTheme } from '@react-navigation/native';
+import {
+	DarkTheme,
+	DefaultTheme
+} from '@react-navigation/native';
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 
-import { themes } from '../../../constants';
+import Header from '../../../../containers/Header';
 import { TSupportedThemes } from '../../../../theme';
 import sharedStyles from '../../../../views/Styles';
-import Header from '../../../../containers/Header';
+import { themes } from '../../../constants';
 
 export const defaultHeader: NativeStackNavigationOptions = {
 	header: Header
@@ -16,10 +19,10 @@ export const drawerStyle = {
 
 export const themedHeader = (theme: TSupportedThemes): NativeStackNavigationOptions => ({
 	headerStyle: {
-		backgroundColor: themes[theme].surfaceNeutral
+		backgroundColor: themes[ theme ].surfaceNeutral
 	},
-	headerTintColor: themes[theme].fontDefault,
-	headerTitleStyle: { ...sharedStyles.textBold, color: themes[theme].fontTitlesLabels, fontSize: 16 }
+	headerTintColor: themes[ theme ].fontDefault,
+	headerTitleStyle: { ...sharedStyles.textBold, color: themes[ theme ].fontTitlesLabels, fontSize: 16 }
 });
 
 export const navigationTheme = (theme: TSupportedThemes) => {
@@ -29,15 +32,15 @@ export const navigationTheme = (theme: TSupportedThemes) => {
 		...defaultNavTheme,
 		colors: {
 			...defaultNavTheme.colors,
-			background: themes[theme].surfaceRoom,
-			border: themes[theme].strokeLight
+			background: themes[ theme ].surfaceRoom,
+			border: themes[ theme ].strokeLight
 		}
 	};
 };
 
 // Gets the current screen from navigation state
 export const getActiveRoute: any = (state: any) => {
-	const route = state?.routes[state?.index];
+	const route = state?.routes[ state?.index ];
 
 	if (route?.state) {
 		// Dive into nested navigators

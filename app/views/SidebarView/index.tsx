@@ -1,36 +1,66 @@
 import React, { Component } from 'react';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerNavigationState } from '@react-navigation/native';
-import { Alert, ScrollView, Text, TouchableWithoutFeedback, View, Linking } from 'react-native';
-import { connect } from 'react-redux';
+
 import { dequal } from 'dequal';
+import {
+	Alert,
+	Linking,
+	ScrollView,
+	Text,
+	TouchableWithoutFeedback,
+	View
+} from 'react-native';
+import {
+	withSafeAreaInsets,
+	WithSafeAreaInsetsProps
+} from 'react-native-safe-area-context';
+import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { DrawerNavigationState } from '@react-navigation/native';
+
+import { setNotificationPresenceCap } from '../../actions/app';
+import {
+	IActionSheetProvider,
+	showActionSheetRef,
+	withActionSheet
+} from '../../containers/ActionSheet';
 import Avatar from '../../containers/Avatar';
+import { CustomIcon } from '../../containers/CustomIcon';
+import * as List from '../../containers/List';
+import SafeAreaView from '../../containers/SafeAreaView';
 import Status from '../../containers/Status/Status';
-import { events, logEvent } from '../../lib/methods/helpers/log';
+import { SupportedVersionsWarning } from '../../containers/SupportedVersions';
+import {
+	IApplicationState,
+	IUser,
+	TSVStatus
+} from '../../definitions';
 import I18n from '../../i18n';
+import {
+	NOTIFICATION_PRESENCE_CAP,
+	themes
+} from '../../lib/constants';
+import {
+	events,
+	logEvent
+} from '../../lib/methods/helpers/log';
 import scrollPersistTaps from '../../lib/methods/helpers/scrollPersistTaps';
 import userPreferences from '../../lib/methods/userPreferences';
-import { CustomIcon } from '../../containers/CustomIcon';
-import { NOTIFICATION_PRESENCE_CAP, themes } from '../../lib/constants';
-import { TSupportedThemes, withTheme } from '../../theme';
-import { getUserSelector } from '../../selectors/login';
-import SafeAreaView from '../../containers/SafeAreaView';
 import Navigation from '../../lib/navigation/appNavigation';
-import styles from './styles';
+import { getUserSelector } from '../../selectors/login';
 import { DrawerParamList } from '../../stacks/types';
-import { IApplicationState, IUser, TSVStatus } from '../../definitions';
-import * as List from '../../containers/List';
-import { IActionSheetProvider, showActionSheetRef, withActionSheet } from '../../containers/ActionSheet';
-import { setNotificationPresenceCap } from '../../actions/app';
-import { SupportedVersionsWarning } from '../../containers/SupportedVersions';
+import {
+	TSupportedThemes,
+	withTheme
+} from '../../theme';
+import styles from './styles';
 
 interface ISidebarState {
 	showStatus: boolean;
 }
 
-interface ISidebarProps {
+interface ISidebarProps extends WithSafeAreaInsetsProps {
 	baseUrl: string;
 	navigation?: DrawerNavigationProp<DrawerParamList>;
 	dispatch: Dispatch;
@@ -49,7 +79,7 @@ interface ISidebarProps {
 	viewRoomAdministrationPermission: string[];
 	viewUserAdministrationPermission: string[];
 	viewPrivilegedSettingPermission: string[];
-	showActionSheet: IActionSheetProvider['showActionSheet'];
+	showActionSheet: IActionSheetProvider[ 'showActionSheet' ];
 }
 
 class Sidebar extends Component<ISidebarProps, ISidebarState> {
@@ -76,7 +106,8 @@ class Sidebar extends Component<ISidebarProps, ISidebarState> {
 			viewStatisticsPermission,
 			viewRoomAdministrationPermission,
 			viewUserAdministrationPermission,
-			viewPrivilegedSettingPermission
+			viewPrivilegedSettingPermission,
+			insets
 		} = this.props;
 		// Drawer navigation state
 		if (state?.index !== nextProps.state?.index) {
@@ -160,13 +191,13 @@ class Sidebar extends Component<ISidebarProps, ISidebarState> {
 
 	sidebarNavigate = (route: string) => {
 		// @ts-ignore
-		logEvent(events[`SIDEBAR_GO_${route.replace('StackNavigator', '').replace('View', '').toUpperCase()}`]);
+		logEvent(events[ `SIDEBAR_GO_${route.replace('StackNavigator', '').replace('View', '').toUpperCase()}` ]);
 		Navigation.navigate(route);
 	};
 
 	get currentItemKey() {
 		const { state } = this.props;
-		return state?.routeNames[state?.index];
+		return state?.routeNames[ state?.index ];
 	}
 
 	onPressUser = () => {
@@ -226,7 +257,7 @@ class Sidebar extends Component<ISidebarProps, ISidebarState> {
 					title={'Admin_Panel'}
 					left={() => <List.Icon name='settings' />}
 					onPress={() => this.sidebarNavigate(routeName)}
-					backgroundColor={this.currentItemKey === routeName ? themes[theme!].strokeLight : undefined}
+					backgroundColor={this.currentItemKey === routeName ? themes[ theme! ].strokeLight : undefined}
 				/>
 			</>
 		);
@@ -240,7 +271,7 @@ class Sidebar extends Component<ISidebarProps, ISidebarState> {
 					title={'Chats'}
 					left={() => <List.Icon name='message' />}
 					onPress={() => this.sidebarNavigate('ChatsStackNavigator')}
-					backgroundColor={this.currentItemKey === 'ChatsStackNavigator' ? themes[theme!].strokeLight : undefined}
+					backgroundColor={this.currentItemKey === 'ChatsStackNavigator' ? themes[ theme! ].strokeLight : undefined}
 					testID='sidebar-chats'
 				/>
 				<List.Separator />
@@ -248,7 +279,7 @@ class Sidebar extends Component<ISidebarProps, ISidebarState> {
 					title={'Profile'}
 					left={() => <List.Icon name='user' />}
 					onPress={() => this.sidebarNavigate('ProfileStackNavigator')}
-					backgroundColor={this.currentItemKey === 'ProfileStackNavigator' ? themes[theme!].strokeLight : undefined}
+					backgroundColor={this.currentItemKey === 'ProfileStackNavigator' ? themes[ theme! ].strokeLight : undefined}
 					testID='sidebar-profile'
 				/>
 				<List.Separator />
@@ -256,7 +287,7 @@ class Sidebar extends Component<ISidebarProps, ISidebarState> {
 					title={'Accessibility_and_Appearance'}
 					left={() => <List.Icon name='accessibility' />}
 					onPress={() => this.sidebarNavigate('AccessibilityStackNavigator')}
-					backgroundColor={this.currentItemKey === 'AccessibilityStackNavigator' ? themes[theme!].strokeLight : undefined}
+					backgroundColor={this.currentItemKey === 'AccessibilityStackNavigator' ? themes[ theme! ].strokeLight : undefined}
 					testID='sidebar-accessibility'
 				/>
 				<List.Separator />
@@ -264,7 +295,7 @@ class Sidebar extends Component<ISidebarProps, ISidebarState> {
 					title={'Settings'}
 					left={() => <List.Icon name='administration' />}
 					onPress={() => this.sidebarNavigate('SettingsStackNavigator')}
-					backgroundColor={this.currentItemKey === 'SettingsStackNavigator' ? themes[theme!].strokeLight : undefined}
+					backgroundColor={this.currentItemKey === 'SettingsStackNavigator' ? themes[ theme! ].strokeLight : undefined}
 					testID='sidebar-settings'
 				/>
 				{this.renderAdmin()}
@@ -281,10 +312,10 @@ class Sidebar extends Component<ISidebarProps, ISidebarState> {
 		}
 
 		let right: (() => JSX.Element | null) | undefined = () => (
-			<CustomIcon name='edit' size={20} color={themes[theme!].fontTitlesLabels} />
+			<CustomIcon name='edit' size={20} color={themes[ theme! ].fontTitlesLabels} />
 		);
 		if (notificationPresenceCap) {
-			right = () => <View style={[styles.customStatusDisabled, { backgroundColor: themes[theme!].userPresenceDisabled }]} />;
+			right = () => <View style={[ styles.customStatusDisabled, { backgroundColor: themes[ theme! ].userPresenceDisabled } ]} />;
 		} else if (Presence_broadcast_disabled) {
 			right = undefined;
 		}
@@ -309,8 +340,8 @@ class Sidebar extends Component<ISidebarProps, ISidebarState> {
 					<List.Separator />
 					<List.Item
 						title={'Supported_versions_warning_update_required'}
-						color={themes[theme!].fontDanger}
-						left={() => <CustomIcon name='warning' size={20} color={themes[theme!].buttonBackgroundDangerDefault} />}
+						color={themes[ theme! ].fontDanger}
+						left={() => <CustomIcon name='warning' size={20} color={themes[ theme! ].buttonBackgroundDangerDefault} />}
 						onPress={() => this.onPressSupportedVersionsWarning()}
 						testID={`sidebar-supported-versions-warn`}
 					/>
@@ -331,16 +362,18 @@ class Sidebar extends Component<ISidebarProps, ISidebarState> {
 				<ScrollView style={styles.container} {...scrollPersistTaps}>
 					<List.Separator />
 					<TouchableWithoutFeedback onPress={this.onPressUser} testID='sidebar-close-drawer'>
-						<View style={[styles.header, { backgroundColor: themes[theme!].surfaceRoom }]}>
+						<View style={[ styles.header, { backgroundColor: themes[ theme! ].surfaceRoom }, {
+							paddingTop: this.props?.insets?.top > 0 ? this.props?.insets?.top : 0
+						} ]}>
 							<Avatar text={user.username} style={styles.avatar} size={30} />
 							<View style={styles.headerTextContainer}>
 								<View style={styles.headerUsername}>
-									<Text numberOfLines={1} style={[styles.username, { color: themes[theme!].fontTitlesLabels }]}>
+									<Text numberOfLines={1} style={[ styles.username, { color: themes[ theme! ].fontTitlesLabels } ]}>
 										{useRealName ? user.name : user.username}
 									</Text>
 								</View>
 								<Text
-									style={[styles.currentServerText, { color: themes[theme!].fontTitlesLabels }]}
+									style={[ styles.currentServerText, { color: themes[ theme! ].fontTitlesLabels } ]}
 									numberOfLines={1}
 									accessibilityLabel={`Connected to ${baseUrl}`}>
 									{Site_Name}
@@ -381,10 +414,10 @@ const mapStateToProps = (state: IApplicationState) => ({
 	notificationPresenceCap: state.app.notificationPresenceCap,
 	supportedVersionsStatus: state.supportedVersions.status,
 	isMasterDetail: state.app.isMasterDetail,
-	viewStatisticsPermission: state.permissions['view-statistics'] as string[],
-	viewRoomAdministrationPermission: state.permissions['view-room-administration'] as string[],
-	viewUserAdministrationPermission: state.permissions['view-user-administration'] as string[],
-	viewPrivilegedSettingPermission: state.permissions['view-privileged-setting'] as string[]
+	viewStatisticsPermission: state.permissions[ 'view-statistics' ] as string[],
+	viewRoomAdministrationPermission: state.permissions[ 'view-room-administration' ] as string[],
+	viewUserAdministrationPermission: state.permissions[ 'view-user-administration' ] as string[],
+	viewPrivilegedSettingPermission: state.permissions[ 'view-privileged-setting' ] as string[]
 });
 
-export default connect(mapStateToProps)(withActionSheet(withTheme(Sidebar)));
+export default connect(mapStateToProps)(withActionSheet(withTheme(withSafeAreaInsets(Sidebar))));
