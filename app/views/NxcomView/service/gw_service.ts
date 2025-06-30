@@ -9,30 +9,22 @@ export const getForumSites = async () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
-                // Thêm các header khác nếu cần, như Authorization
             }
         });
 
         if (response.status === 200) {
             const data = await response.json();
-            const sites = data.message; // Lấy danh sách site từ response
-
-            // Chuyển danh sách site thành mảng string
+            const sites = data.message;
             const siteUrls = Array.isArray(sites) ? sites : [];
-
-            // Gọi chi tiết cho từng site bằng cách map qua danh sách
             const sitesDetailPromises = siteUrls.map(site => getSiteDetail(site));
-
-            // Chờ tất cả các promise hoàn thành
             const result = await Promise.all(sitesDetailPromises);
-
-            // Lọc bỏ các giá trị null và trả về danh sách site hợp lệ
             return result.filter(site => site !== null);
         }
-        return [];
+        // NÉM LỖI nếu response từ gateway không thành công
+        throw new Error(`Failed to fetch site list from gateway. Status: ${response.status}`);
     } catch (error) {
         console.error('Error fetching forum sites:', error);
-        return [];
+        throw error; // NÉM LẠI LỖI để component gọi nó có thể bắt
     }
 };
 
@@ -43,22 +35,21 @@ export const getSiteDetail = async (site: any) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
-                // Thêm các header khác nếu cần
             }
         });
 
         if (response.status === 200) {
             const data = await response.json();
-
-            // Tạo đối tượng Site từ dữ liệu JSON, thêm thuộc tính 'site'
             return {
                 ...data,
                 site
             };
         }
+        // Trả về null nếu chỉ một site con bị lỗi để Promise.all không bị dừng
         return null;
     } catch (error) {
-        console.error('Error fetching site detail:', error);
+        console.error('Error fetching site detail for:', site, error);
+        // Trả về null để không làm hỏng toàn bộ Promise.all
         return null;
     }
 };
@@ -71,7 +62,6 @@ export const client_logout = async () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-                // Thêm các header khác nếu cần
             },
             body: JSON.stringify({ device_id })
         }).then((res) => {

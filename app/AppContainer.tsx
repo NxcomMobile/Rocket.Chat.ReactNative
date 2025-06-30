@@ -34,6 +34,9 @@ import ShareExtensionStack from './stacks/ShareExtensionStack';
 import { ThemeContext } from './theme';
 // Stacks
 import AuthLoadingView from './views/AuthLoadingView';
+import NxLoading from './views/NxcomView/component/NxLoading';
+import NxSnackbar from './views/NxcomView/component/NxSnackbar';
+import R from './views/NxcomView/component/R';
 import GlobalFAB from './views/NxcomView/GlobalFAB';
 import NxcomStackNavigator from './views/NxcomView/NxcomStack';
 // SetUsername Stack
@@ -143,6 +146,9 @@ const App = memo(({ root, isMasterDetail }: { root: string; isMasterDetail: bool
 
 			</Stack.Navigator>
 			<GlobalFAB />
+			<NxSnackbar ref={(ref) => { R.NxSnackbar = ref; }} />
+			<NxLoading ref={(ref) => { R.Loading = ref; }} />
+
 		</NavigationContainer>
 	);
 });
