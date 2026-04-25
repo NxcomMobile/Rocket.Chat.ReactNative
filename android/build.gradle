@@ -48,6 +48,14 @@ subprojects { subproject ->
                 defaultConfig {	
                     minSdkVersion rootProject.ext.minSdkVersion
                     targetSdkVersion rootProject.ext.targetSdkVersion
+                    externalNativeBuild {
+                        cmake {
+                            arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+                        }
+                        ndkBuild {
+                            arguments "APP_SUPPORT_FLEXIBLE_PAGE_SIZES=true"
+                        }
+                    }
                 }	
             }	
         }	
